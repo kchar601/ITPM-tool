@@ -53,6 +53,12 @@ function darkMode(){
 
 }
 
+function addResults(response){
+    $("#individual-form").hide();
+    $("#results").show();
+    console.log(response);
+}
+
 function textCheck(z){
     var selector = "#" + z;
     if($(selector).prop('checked') == true){
@@ -71,7 +77,7 @@ function login(){
 }
 
 function addQuestions(){
-    $.getJSON("../data/further-question.json", function(json){
+    try{$.getJSON("../data/further-question.json", function(json){
         json.forEach(line => {
             console.log(line.id);
             if($("#" + line.id).prop("checked")==true){
@@ -79,33 +85,37 @@ function addQuestions(){
             line.questions.forEach(question => {
                 console.log(question.id + " " + question.question)
                 $("#complexity-Xbox-questions").append("<label for='" + question.id + "'>" + question.question + "</label><br>"
-                    + "<input type='radio' id='rate-1' name='rate' value='1'>"
-                    + "<label for='rate-1'>1</label>"
+                    + "<input type='radio' id='"+question.id+"rate-1' name='" + question.id + "' value='1'>"
+                    + "<label class='radio-label' for='rate-1'>1</label>"
                     
-                    + "<input type='radio' id='rate-2' name='rate' value='2'>"
-                    + "<label for='rate-2'>2</label>"
+                    + "<input type='radio' id='"+ question.id +"rate-2' name='" + question.id + "' value='2'>"
+                    + "<label class='radio-label' for='rate-2'>2</label>"
                     
-                    + "<input type='radio' id='rate-3' name='rate' value='3'>"
-                    + "<label for='rate-3'>3</label>"
+                    + "<input type='radio' id='" + question.id + "rate-3' name='" + question.id + "' value='3'>"
+                    + "<label class='radio-label' for='rate-3'>3</label>"
                     
-                    +"<input type='radio' id='rate-4' name='rate' value='4'>"
-                    +"<label for='rate-4'>4</label>"
+                    +"<input type='radio' id='"+question.id+"rate-4' name='" + question.id + "' value='4'>"
+                    +"<label class='radio-label' for='rate-4'>4</label>"
                     
-                    +"<input type='radio' id='rate-5' name='rate' value='5'>"
-                    +"<label for='rate-5'>5</label>"
+                    +"<input type='radio' id='"+question.id+"rate-5' name='" + question.id + "' value='5'>"
+                    +"<label class='radio-label' for='rate-5'>5</label>"
                     
-                    +"<input type='radio' id='rate-6' name='rate' value='6'>"
-                    +"<label for='rate-6'>6</label>"
+                    +"<input type='radio' id='"+question.id+"rate-6' name='" + question.id + "' value='6'>"
+                    +"<label class='radio-label' for='rate-6'>6</label>"
                     
-                    +"<input type='radio' id='rate-7' name='rate' value='7'>"
-                    +"<label for='rate-7' class='mb-2' >7</label><br>");
+                    +"<input type='radio' id='"+question.id+"rate-7' name='" + question.id + "' value='7'>"
+                    +"<label class='radio-label' for='rate-7' class='mb-2' >7</label><br>");
             });
             }
             else(
                 console.log(line.id + "is not checked")
             )
-    });
-    });
+            });
+    });}
+    finally{
+        var data = [];
+        $.post('/sendtoGPT', data, addResults(response));
+    }
 }
 
 function criteriaSubmit(){
@@ -124,4 +134,9 @@ $(document).ready(function(){
         event.preventDefault();
         criteriaSubmit();
     });
+
+    document.getElementById("individual-submit-btn").addEventListener("click", function(event) {
+        event.preventDefault();
+        addResults();
+        });
 });

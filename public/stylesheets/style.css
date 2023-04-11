@@ -9,8 +9,8 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .form-center{
-  padding-left: 25rem;
-  padding-right: 25rem;
+  margin-left: 25rem;
+  margin-right: 25rem;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -31,7 +31,11 @@ input[type="radio"]{
   margin-left: 1rem;
 }
 
-.individual-form label {
+.radio-label {
   margin-left: .3rem;
   font-weight: bold;
+}
+
+.button-center{
+  margin-left: 12rem;
 }
